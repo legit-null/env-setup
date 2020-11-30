@@ -7,13 +7,13 @@ mkdir -p $HOME/ws
 
 # ---------- nvim ----------
 wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage \
-  -P $HOME/bin/
+  -O $HOME/bin/nvim.appimage
 chmod +x $HOME/bin/nvim.appimage
 
 mkdir -p $HOME/.vim/
 mkdir -p $HOME/.config/nvim
 
-cp nvim/.vimrc $HOME/.vim/
+cp nvim/vimrc $HOME/.vim/
 cp nvim/init.vim $HOME/.config/nvim/
 
 # ---------- zsh ----------
