@@ -1,0 +1,247 @@
+set encoding=utf-8
+""""""""""""""""""""""""""""""
+" vim plug automatic installation
+""""""""""""""""""""""""""""""
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Specify a directory for plugins
+" Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+
+" nerd commenter
+Plug 'scrooloose/nerdcommenter'
+" lightline
+Plug 'itchyny/lightline.vim'
+" ack
+Plug 'mileszs/ack.vim'
+" auto pair
+Plug 'jiangmiao/auto-pairs'
+" better white space
+Plug 'ntpeters/vim-better-whitespace'
+" ctrlp
+Plug 'kien/ctrlp.vim'
+" intent line
+" Plug 'Yggdroot/indentLine'
+" nerdtree
+Plug 'scrooloose/nerdtree'
+" vim-codefmt
+" Add maktaba and codefmt to the runtimepath.
+" (The latter must be installed before it can be used.)
+Plug 'google/vim-maktaba'
+Plug 'google/vim-codefmt'
+" Also add Glaive, which is used to configure codefmt's maktaba flags.
+Plug 'google/vim-glaive'
+" deoplete
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" mirror
+Plug 'zenbro/mirror.vim'
+" themes
+Plug 'carakan/new-railscasts-theme'
+Plug 'rafi/awesome-vim-colorschemes'
+Plug 'flazz/vim-colorschemes'
+Plug 'junegunn/seoul256.vim'
+Plug 'RussellBradley/vim-nba'
+Plug 'sainnhe/vim-color-vanilla-cake'
+Plug 'sheerun/vim-polyglot'
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'cocopon/iceberg.vim'
+Plug 'duggiefresh/vim-easydir'
+Plug 'justinmk/vim-sneak'
+
+" Initialize plugin system
+call plug#end()
+""""""""""""""""""""""""""""""
+" General
+""""""""""""""""""""""""""""""
+" Uncomment the following to have Vim jump to the last position when
+" reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g'\"" | endif
+endif
+
+set nocompatible    " disable backward compatibility with Vi
+filetype plugin on  " plugins are enabled
+
+" Enable file plugins
+filetype plugin indent on
+filetype indent on
+
+" Turn on the WiLd menu
+set wildmenu
+
+" mode information is displayed in the statusline
+set noshowmode
+
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = " "
+let g:mapleader = " "
+
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove<cr>
+map <leader>t<leader> :tabnext<cr>
+
+map gb :tabp<CR>
+
+" Set to auto read when a file is changed from the outside
+set autoread
+
+" Always show current position
+set ruler
+
+" Show tab
+set list
+set listchars=tab:>-
+
+" Enable syntax highlighting
+syntax enable
+
+" Use spaces instead of tabs
+set expandtab
+
+" 1 tab == 2 spaces
+set shiftwidth=2
+set tabstop=2
+
+" Linebreak on 80 characters
+set lbr
+set tw=80
+
+" Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" Insert blank line without entering insert mode
+map <CR> o<Esc>
+
+nmap <leader>s :w<CR>
+
+" Set line number and relative number
+set number
+set relativenumber
+" Set 7 lines to the cursor - when moving vertically using j/k
+" Short for scrolloff
+set so=7
+
+" Highlight current line
+set cursorline
+
+" Show matching brackets when text indicator is over them
+set showmatch
+" How many tenths of a second to blink when matching brackets
+set mat=1
+
+" Enable true color 启用终端24位色
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+
+" Colorscheme
+let g:seoul256_background = 236
+colo  seoul256
+
+" set termguicolors
+" colorscheme vanilla-cake
+
+" set t_Co=256
+" set background=light
+" colo PaperColor
+
+set colorcolumn=80
+
+" Auto indent
+set ai
+" Smart indent
+set si
+" Wrap lines
+set wrap
+
+" No swap files
+set noswapfile
+
+" When searching try to be smart about cases
+set smartcase
+"
+" Highlight search results
+set hlsearch
+
+" Makes search act like search in modern browsers
+set incsearch
+
+" Nerd commenter: add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" indentLine
+let g:indentLine_setColors = 0
+
+" better whitespace
+let g:better_whitespace_enabled=1
+let g:strip_whitespace_on_save=1
+
+call glaive#Install()
+Glaive codefmt plugin[mappings]
+Glaive codefmt clang_format_executable='/usr/bin/clang-format-7'
+Glaive codefmt buildifier_executable='~/bin/go/bin/buildifier'
+Glaive codefmt clang_format_style='file'
+
+au BufRead,BufNewFile *.BUILD set filetype=bzl
+
+augroup autoformat_settings
+  autocmd FileType bzl AutoFormatBuffer buildifier
+  autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+  autocmd FileType dart AutoFormatBuffer dartfmt
+  autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType gn AutoFormatBuffer gn
+  autocmd FileType html,css,json AutoFormatBuffer js-beautify
+  autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType python AutoFormatBuffer yapf
+augroup END
+
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+set clipboard=unnamedplus
+
+" lightline
+let g:lightline = {
+      \ 'colorscheme': 'jellybeans',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'full_filename', 'modified' ] ]
+      \ },
+      \ 'component': {
+      \   'full_filename': '%F'
+      \ },
+      \ }
+
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+let g:cpp_concepts_highlight = 1
+
+
+" Search for visually selected text
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
