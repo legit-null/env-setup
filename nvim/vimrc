@@ -55,6 +55,11 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'cocopon/iceberg.vim'
 Plug 'duggiefresh/vim-easydir'
 Plug 'justinmk/vim-sneak'
+Plug 'ianding1/leetcode.vim'
+" Plug 'vim-syntastic/syntastic'
+" Plug 'bazelbuild/vim-bazel'
+Plug 'bfrg/vim-cpp-modern'
+Plug 'sainnhe/gruvbox-material'
 
 " Initialize plugin system
 call plug#end()
@@ -153,15 +158,22 @@ if exists('+termguicolors')
 endif
 
 " Colorscheme
-let g:seoul256_background = 236
-colo  seoul256
+" let g:seoul256_background = 233
+" let g:seoul256_light_background = 252
+" colo  seoul256
+" colo  seoul256-light
 
 " set termguicolors
 " colorscheme vanilla-cake
 
-" set t_Co=256
-" set background=light
+set t_Co=256
+set background=light
 " colo PaperColor
+
+let g:gruvbox_material_background = 'soft'
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_disable_italic_comment = 1
+colorscheme gruvbox-material
 
 set colorcolumn=80
 
@@ -200,7 +212,6 @@ Glaive codefmt buildifier_executable='~/bin/go/bin/buildifier'
 Glaive codefmt clang_format_style='file'
 
 au BufRead,BufNewFile *.BUILD set filetype=bzl
-
 augroup autoformat_settings
   autocmd FileType bzl AutoFormatBuffer buildifier
   autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
@@ -219,7 +230,7 @@ set clipboard=unnamedplus
 
 " lightline
 let g:lightline = {
-      \ 'colorscheme': 'jellybeans',
+      \ 'colorscheme': 'gruvbox_material',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'readonly', 'filename', 'full_filename', 'modified' ] ]
@@ -238,8 +249,7 @@ let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 let g:cpp_concepts_highlight = 1
 
-
-" Search for visually selected text
+" search for visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 set statusline+=%#warningmsg#
