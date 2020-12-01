@@ -55,10 +55,6 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'cocopon/iceberg.vim'
 Plug 'duggiefresh/vim-easydir'
 Plug 'justinmk/vim-sneak'
-Plug 'ianding1/leetcode.vim'
-" Plug 'vim-syntastic/syntastic'
-" Plug 'bazelbuild/vim-bazel'
-Plug 'bfrg/vim-cpp-modern'
 Plug 'sainnhe/gruvbox-material'
 
 " Initialize plugin system

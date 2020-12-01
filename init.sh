@@ -5,6 +5,10 @@ mkdir -p $HOME/bin
 mkdir -p $HOME/tmp
 mkdir -p $HOME/ws
 
+cp misc/find.sh $HOME/ws/
+echo 'alias fd="sh ~/ws/find.sh"' >> $HOME/.bashrc
+echo 'alias fd="sh ~/ws/find.sh"' >> $HOME/.zshrc
+
 # ---------- nvim ----------
 echo "begin nvim setup..."
 wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage \
