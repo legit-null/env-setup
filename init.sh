@@ -17,8 +17,7 @@ mkdir -p $HOME/.config/nvim
 cp nvim/vimrc $HOME/.vim/
 cp nvim/init.vim $HOME/.config/nvim/
 
-touch $HOME/.vimrc
-ln -s $HOME/.vimrc $HOME/.vim/vimrc
+ln -s $HOME/.vim/vimrc $HOME/.vimrc
 
 echo "done nvim setup."
 
