@@ -203,7 +203,7 @@ let g:strip_whitespace_on_save=1
 
 call glaive#Install()
 Glaive codefmt plugin[mappings]
-Glaive codefmt clang_format_executable='/usr/bin/clang-format-7'
+Glaive codefmt clang_format_executable='~/bin/miniconda3/bin/clang-format'
 Glaive codefmt buildifier_executable='~/bin/go/bin/buildifier'
 Glaive codefmt clang_format_style='file'
 
