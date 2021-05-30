@@ -25,12 +25,8 @@ Plug 'mileszs/ack.vim'
 Plug 'jiangmiao/auto-pairs'
 " better white space
 Plug 'ntpeters/vim-better-whitespace'
-" ctrlp
-Plug 'kien/ctrlp.vim'
 " intent line
 " Plug 'Yggdroot/indentLine'
-" nerdtree
-Plug 'scrooloose/nerdtree'
 " vim-codefmt
 " Add maktaba and codefmt to the runtimepath.
 " (The latter must be installed before it can be used.)
@@ -38,24 +34,20 @@ Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
 " Also add Glaive, which is used to configure codefmt's maktaba flags.
 Plug 'google/vim-glaive'
-" deoplete
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " mirror
 Plug 'zenbro/mirror.vim'
 " themes
-Plug 'carakan/new-railscasts-theme'
-Plug 'rafi/awesome-vim-colorschemes'
-Plug 'flazz/vim-colorschemes'
 Plug 'junegunn/seoul256.vim'
-Plug 'RussellBradley/vim-nba'
-Plug 'sainnhe/vim-color-vanilla-cake'
-Plug 'sheerun/vim-polyglot'
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'cocopon/iceberg.vim'
-Plug 'duggiefresh/vim-easydir'
-Plug 'justinmk/vim-sneak'
 Plug 'sainnhe/gruvbox-material'
+" coc
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" vim-clap
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+" fzf
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" rainbow
+Plug 'luochen1990/rainbow'
+
 
 " Initialize plugin system
 call plug#end()
@@ -147,11 +139,11 @@ set showmatch
 set mat=1
 
 " Enable true color 启用终端24位色
-if exists('+termguicolors')
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
-endif
+" if exists('+termguicolors')
+  " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  " set termguicolors
+" endif
 
 " Colorscheme
 " let g:seoul256_background = 233
@@ -159,11 +151,8 @@ endif
 " colo  seoul256
 " colo  seoul256-light
 
-" set termguicolors
-" colorscheme vanilla-cake
-
-set t_Co=256
-set background=light
+" set t_Co=256
+set background=dark
 " colo PaperColor
 
 let g:gruvbox_material_background = 'soft'
@@ -192,6 +181,12 @@ set hlsearch
 " Makes search act like search in modern browsers
 set incsearch
 
+set termguicolors
+
+set mouse=a
+
+nnoremap <silent> <2-LeftMouse> :let @/='\V\<'.escape(expand('<cword>'), '\').'\>'<cr>:set hls<cr>
+
 " Nerd commenter: add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 " indentLine
@@ -203,8 +198,8 @@ let g:strip_whitespace_on_save=1
 
 call glaive#Install()
 Glaive codefmt plugin[mappings]
-Glaive codefmt clang_format_executable='~/bin/miniconda3/bin/clang-format'
-Glaive codefmt buildifier_executable='~/bin/go/bin/buildifier'
+Glaive codefmt clang_format_executable='/home/fengyupu/bin/miniconda3/bin/clang-format'
+Glaive codefmt buildifier_executable='/home/fengyupu/bin/go/bin/buildifier'
 Glaive codefmt clang_format_style='file'
 
 au BufRead,BufNewFile *.BUILD set filetype=bzl
@@ -236,18 +231,55 @@ let g:lightline = {
       \ },
       \ }
 
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_experimental_template_highlight = 1
-let g:cpp_concepts_highlight = 1
-
 " search for visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
+
+
+
+
+" -----------------------------------------------------------------------------
+" coc explorer
+" -----------------------------------------------------------------------------
+nnoremap <leader>e :CocCommand explorer<CR>
+" reveal current buffer in coc-explorer
+nnoremap <leader>er :call CocAction('runCommand', 'explorer.doAction', 'closest', ['reveal:0'], [['relative', 0, 'file']])<CR>
+" -----------------------------------------------------------------------------
+" coc fzf-preview
+" -----------------------------------------------------------------------------
+nmap <Leader>f [fzf-p]
+xmap <Leader>f [fzf-p]
+nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
+nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
+nnoremap <silent> [fzf-p]ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
+nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
+nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+nnoremap <silent> [fzf-p]o     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
+nnoremap <silent> [fzf-p]<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
+nnoremap <silent> [fzf-p]g;    :<C-u>CocCommand fzf-preview.Changes<CR>
+nnoremap <silent> [fzf-p]/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+nnoremap <silent> [fzf-p]*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap          [fzf-p]g    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
+xnoremap          [fzf-p]g    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+nnoremap <silent> [fzf-p]t     :<C-u>CocCommand fzf-preview.BufferTags<CR>
+nnoremap <silent> [fzf-p]q     :<C-u>CocCommand fzf-preview.QuickFix<CR>
+nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
+nnoremap          [fzf-p]f    :<C-u>CocCommand fzf-preview.ProjectFiles<CR>
+
+augroup fzf_preview
+  autocmd!
+  autocmd User fzf_preview#rpc#initialized call s:fzf_preview_settings() " fzf_preview#remote#initialized or fzf_preview#coc#initialized
+augroup END
+
+function! s:fzf_preview_settings() abort
+  let g:fzf_preview_command = 'COLORTERM=truecolor ' . g:fzf_preview_command
+  let g:fzf_preview_grep_preview_cmd = 'COLORTERM=truecolor ' . g:fzf_preview_grep_preview_cmd
+endfunction
+" -----------------------------------------------------------------------------
+" rainbow
+" -----------------------------------------------------------------------------
+let g:rainbow_active = 1
