@@ -1,0 +1,13 @@
+# vim mode
+set -o vi
+
+export PATH="$HOME/usr/bin:$PATH"
+export LD_LIBRARY_PATH="$HOME/usr/lib:$LD_LIBRARY_PATH"
+
+alias fd="bash $HOME/ws/find.sh"
+alias n="$HOME/usr/bin/nvim"
+alias vi="$HOME/usr/bin/nvim"
+alias vim="$HOME/usr/bin/nvim"
+
+# bat theme
+export FZF_PREVIEW_PREVIEW_BAT_THEME='TwoDark'
